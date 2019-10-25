@@ -8,7 +8,7 @@ import NetworksTable from './components/NetworksTable.svelte'
 <style>
 </style>
 
-<HeaderBar />
+<HeaderBar headerMessage="Wi-Finder"/>
 <NetworksTable />
 
 

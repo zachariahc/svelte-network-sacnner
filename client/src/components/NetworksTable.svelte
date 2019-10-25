@@ -19,34 +19,42 @@
     selected = network;
     showModal === false ? (showModal = true) : (showModal = false);
   };
+
+  const closeModal = () =>
+    showModal === false ? (showModal = true) : (showModal = false);
 </script>
 
 <style>
   table {
     font-family: arial, sans-serif;
-    border-collapse: collapse;
+    /* border-collapse: collapse; */
+    background-color: rgb(53, 53, 53);
     width: 100%;
+    border: 1px solid rgb(102, 102, 102);
+    border-radius: 10px;
   }
-
   td,
   th {
-    border: 1px solid #dddddd;
-    text-align: left;
+    color: white;
+    text-align: center;
     padding: 8px;
+    width: 25%;
   }
 
-  tr:nth-child(even) {
-    background-color: #dddddd;
+  td {
+    padding: 10px;
   }
   .table-row {
     cursor: pointer;
   }
   .table-row:hover {
+    color: white;
     opacity: 0.75;
+    background-color: rgb(63, 63, 63);
   }
 </style>
 
-<Modal {selected} show={showModal} closeModal={getInfo} />
+<Modal {selected} show={showModal} {closeModal} />
 
 {#if loading}
   <Loader />

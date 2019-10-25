@@ -24,6 +24,9 @@ var app = (function () {
     function safe_not_equal(a, b) {
         return a != a ? b == b : a !== b || ((a && typeof a === 'object') || typeof a === 'function');
     }
+    function null_to_empty(value) {
+        return value == null ? '' : value;
+    }
 
     function append(target, node) {
         target.appendChild(node);
@@ -353,7 +356,7 @@ var app = (function () {
     	return child_ctx;
     }
 
-    // (31:0) {#each data as item }
+    // (33:2) {#each data as item}
     function create_each_block(ctx) {
     	var p0, t0, t1_value = ctx.item.ssid + "", t1, t2, p1, t3, t4_value = ctx.item.bssid + "", t4, t5, p2, t6, t7_value = ctx.item.channel + "", t7, t8, p3, t9, t10_value = ctx.item.signal_level + "", t10, t11, p4, t12, t13_value = ctx.item.security + "", t13;
 
@@ -378,16 +381,16 @@ var app = (function () {
     			p4 = element("p");
     			t12 = text("Security: ");
     			t13 = text(t13_value);
-    			attr_dev(p0, "class", "hello-header svelte-1bqxa78");
-    			add_location(p0, file, 31, 4, 609);
-    			attr_dev(p1, "class", "hello-header svelte-1bqxa78");
-    			add_location(p1, file, 32, 4, 667);
-    			attr_dev(p2, "class", "hello-header svelte-1bqxa78");
-    			add_location(p2, file, 33, 4, 727);
-    			attr_dev(p3, "class", "hello-header svelte-1bqxa78");
-    			add_location(p3, file, 34, 4, 791);
-    			attr_dev(p4, "class", "hello-header svelte-1bqxa78");
-    			add_location(p4, file, 35, 4, 857);
+    			attr_dev(p0, "class", "current-data svelte-1s1yday");
+    			add_location(p0, file, 33, 4, 712);
+    			attr_dev(p1, "class", "current-data svelte-1s1yday");
+    			add_location(p1, file, 34, 4, 770);
+    			attr_dev(p2, "class", "current-data svelte-1s1yday");
+    			add_location(p2, file, 35, 4, 830);
+    			attr_dev(p3, "class", "current-data svelte-1s1yday");
+    			add_location(p3, file, 36, 4, 894);
+    			attr_dev(p4, "class", "current-data svelte-1s1yday");
+    			add_location(p4, file, 37, 4, 960);
     		},
 
     		m: function mount(target, anchor) {
@@ -448,12 +451,12 @@ var app = (function () {
     			}
     		}
     	};
-    	dispatch_dev("SvelteRegisterBlock", { block, id: create_each_block.name, type: "each", source: "(31:0) {#each data as item }", ctx });
+    	dispatch_dev("SvelteRegisterBlock", { block, id: create_each_block.name, type: "each", source: "(33:2) {#each data as item}", ctx });
     	return block;
     }
 
     function create_fragment(ctx) {
-    	var div;
+    	var div, t0, h2, t1;
 
     	let each_value = ctx.data;
 
@@ -470,8 +473,14 @@ var app = (function () {
     			for (let i = 0; i < each_blocks.length; i += 1) {
     				each_blocks[i].c();
     			}
-    			attr_dev(div, "class", "header-container svelte-1bqxa78");
-    			add_location(div, file, 29, 0, 552);
+
+    			t0 = space();
+    			h2 = element("h2");
+    			t1 = text(ctx.headerMessage);
+    			attr_dev(div, "class", "header-container svelte-1s1yday");
+    			add_location(div, file, 31, 0, 654);
+    			attr_dev(h2, "class", "header-text svelte-1s1yday");
+    			add_location(h2, file, 41, 0, 1032);
     		},
 
     		l: function claim(nodes) {
@@ -484,6 +493,10 @@ var app = (function () {
     			for (let i = 0; i < each_blocks.length; i += 1) {
     				each_blocks[i].m(div, null);
     			}
+
+    			insert_dev(target, t0, anchor);
+    			insert_dev(target, h2, anchor);
+    			append_dev(h2, t1);
     		},
 
     		p: function update(changed, ctx) {
@@ -508,6 +521,10 @@ var app = (function () {
     				}
     				each_blocks.length = each_value.length;
     			}
+
+    			if (changed.headerMessage) {
+    				set_data_dev(t1, ctx.headerMessage);
+    			}
     		},
 
     		i: noop,
@@ -519,6 +536,11 @@ var app = (function () {
     			}
 
     			destroy_each(each_blocks, detaching);
+
+    			if (detaching) {
+    				detach_dev(t0);
+    				detach_dev(h2);
+    			}
     		}
     	};
     	dispatch_dev("SvelteRegisterBlock", { block, id: create_fragment.name, type: "component", source: "", ctx });
@@ -526,32 +548,50 @@ var app = (function () {
     }
 
     function instance($$self, $$props, $$invalidate) {
-    	let data = [];
+    	let { headerMessage = String } = $$props;
+      let data = [];
 
       onMount(async function() {
-
         const response = await fetch("http://localhost:3000/currentconnection");
         const json = await response.json();
         $$invalidate('data', data = json);
         // console.log(data)
       });
 
+    	const writable_props = ['headerMessage'];
+    	Object.keys($$props).forEach(key => {
+    		if (!writable_props.includes(key) && !key.startsWith('$$')) console.warn(`<HeaderBar> was created with unknown prop '${key}'`);
+    	});
+
+    	$$self.$set = $$props => {
+    		if ('headerMessage' in $$props) $$invalidate('headerMessage', headerMessage = $$props.headerMessage);
+    	};
+
     	$$self.$capture_state = () => {
-    		return {};
+    		return { headerMessage, data };
     	};
 
     	$$self.$inject_state = $$props => {
+    		if ('headerMessage' in $$props) $$invalidate('headerMessage', headerMessage = $$props.headerMessage);
     		if ('data' in $$props) $$invalidate('data', data = $$props.data);
     	};
 
-    	return { data };
+    	return { headerMessage, data };
     }
 
     class HeaderBar extends SvelteComponentDev {
     	constructor(options) {
     		super(options);
-    		init(this, options, instance, create_fragment, safe_not_equal, []);
+    		init(this, options, instance, create_fragment, safe_not_equal, ["headerMessage"]);
     		dispatch_dev("SvelteRegisterComponent", { component: this, tagName: "HeaderBar", options, id: create_fragment.name });
+    	}
+
+    	get headerMessage() {
+    		throw new Error("<HeaderBar>: Props cannot be read directly from the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
+
+    	set headerMessage(value) {
+    		throw new Error("<HeaderBar>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
     	}
     }
 
@@ -566,7 +606,7 @@ var app = (function () {
     		c: function create() {
     			div = element("div");
     			attr_dev(div, "class", "loader svelte-l9pk5a");
-    			add_location(div, file$1, 29, 0, 540);
+    			add_location(div, file$1, 25, 0, 490);
     		},
 
     		l: function claim(nodes) {
@@ -600,58 +640,114 @@ var app = (function () {
     }
 
     /* src/components/Modal.svelte generated by Svelte v3.12.1 */
-    const { Object: Object_1 } = globals;
+    const { Object: Object_1, console: console_1 } = globals;
 
     const file$2 = "src/components/Modal.svelte";
 
-    // (49:0) {#if show}
+    // (96:0) {#if show}
     function create_if_block(ctx) {
-    	var div1, div0, span, t1, p, t2_value = ctx.selected.ssid + "", t2, dispose;
+    	var div3, div2, span, t1, div1, h3, t3, h4, t4_value = ctx.selected.ssid + "", t4, t5, p, t7, div0, i, i_class_value, t8, input, t9, button, dispose;
 
     	const block = {
     		c: function create() {
-    			div1 = element("div");
-    			div0 = element("div");
+    			div3 = element("div");
+    			div2 = element("div");
     			span = element("span");
     			span.textContent = "×";
     			t1 = space();
+    			div1 = element("div");
+    			h3 = element("h3");
+    			h3.textContent = "You are attempting to connect to:";
+    			t3 = space();
+    			h4 = element("h4");
+    			t4 = text(t4_value);
+    			t5 = space();
     			p = element("p");
-    			t2 = text(t2_value);
-    			attr_dev(span, "class", "close svelte-qpwk0i");
-    			add_location(span, file$2, 51, 6, 1177);
-    			add_location(p, file$2, 52, 6, 1240);
-    			attr_dev(div0, "class", "modal-content svelte-qpwk0i");
-    			add_location(div0, file$2, 50, 4, 1143);
-    			attr_dev(div1, "id", "myModal");
-    			attr_dev(div1, "class", "modal svelte-qpwk0i");
-    			add_location(div1, file$2, 49, 2, 1106);
-    			dispose = listen_dev(span, "click", ctx.closeModal);
+    			p.textContent = "Please enter a password and clck";
+    			t7 = space();
+    			div0 = element("div");
+    			i = element("i");
+    			t8 = space();
+    			input = element("input");
+    			t9 = space();
+    			button = element("button");
+    			button.textContent = "Connect";
+    			attr_dev(span, "class", "close svelte-1uh84sk");
+    			add_location(span, file$2, 98, 6, 1984);
+    			add_location(h3, file$2, 100, 8, 2085);
+    			add_location(h4, file$2, 101, 8, 2136);
+    			add_location(p, file$2, 102, 8, 2169);
+    			attr_dev(i, "class", i_class_value = "" + null_to_empty((`fas ${ctx.openOrClosed} icon`)) + " svelte-1uh84sk");
+    			add_location(i, file$2, 104, 10, 2257);
+    			attr_dev(input, "class", "input-field svelte-1uh84sk");
+    			attr_dev(input, "type", ctx.showPass);
+    			attr_dev(input, "placeholder", "password");
+    			attr_dev(input, "name", "usrname");
+    			add_location(input, file$2, 105, 10, 2332);
+    			attr_dev(div0, "class", "input-container svelte-1uh84sk");
+    			add_location(div0, file$2, 103, 8, 2217);
+    			attr_dev(button, "type", "submit");
+    			attr_dev(button, "class", "btn svelte-1uh84sk");
+    			add_location(button, file$2, 111, 8, 2487);
+    			attr_dev(div1, "class", "connect-content svelte-1uh84sk");
+    			add_location(div1, file$2, 99, 6, 2047);
+    			attr_dev(div2, "class", "modal-content svelte-1uh84sk");
+    			add_location(div2, file$2, 97, 4, 1950);
+    			attr_dev(div3, "id", "myModal");
+    			attr_dev(div3, "class", "modal svelte-1uh84sk");
+    			add_location(div3, file$2, 96, 2, 1913);
+
+    			dispose = [
+    				listen_dev(span, "click", ctx.closeModal),
+    				listen_dev(i, "click", ctx.showPassword),
+    				listen_dev(button, "click", ctx.connectToNetwork)
+    			];
     		},
 
     		m: function mount(target, anchor) {
-    			insert_dev(target, div1, anchor);
+    			insert_dev(target, div3, anchor);
+    			append_dev(div3, div2);
+    			append_dev(div2, span);
+    			append_dev(div2, t1);
+    			append_dev(div2, div1);
+    			append_dev(div1, h3);
+    			append_dev(div1, t3);
+    			append_dev(div1, h4);
+    			append_dev(h4, t4);
+    			append_dev(div1, t5);
+    			append_dev(div1, p);
+    			append_dev(div1, t7);
     			append_dev(div1, div0);
-    			append_dev(div0, span);
-    			append_dev(div0, t1);
-    			append_dev(div0, p);
-    			append_dev(p, t2);
+    			append_dev(div0, i);
+    			append_dev(div0, t8);
+    			append_dev(div0, input);
+    			append_dev(div1, t9);
+    			append_dev(div1, button);
     		},
 
     		p: function update(changed, ctx) {
-    			if ((changed.selected) && t2_value !== (t2_value = ctx.selected.ssid + "")) {
-    				set_data_dev(t2, t2_value);
+    			if ((changed.selected) && t4_value !== (t4_value = ctx.selected.ssid + "")) {
+    				set_data_dev(t4, t4_value);
+    			}
+
+    			if ((changed.openOrClosed) && i_class_value !== (i_class_value = "" + null_to_empty((`fas ${ctx.openOrClosed} icon`)) + " svelte-1uh84sk")) {
+    				attr_dev(i, "class", i_class_value);
+    			}
+
+    			if (changed.showPass) {
+    				attr_dev(input, "type", ctx.showPass);
     			}
     		},
 
     		d: function destroy(detaching) {
     			if (detaching) {
-    				detach_dev(div1);
+    				detach_dev(div3);
     			}
 
-    			dispose();
+    			run_all(dispose);
     		}
     	};
-    	dispatch_dev("SvelteRegisterBlock", { block, id: create_if_block.name, type: "if", source: "(49:0) {#if show}", ctx });
+    	dispatch_dev("SvelteRegisterBlock", { block, id: create_if_block.name, type: "if", source: "(96:0) {#if show}", ctx });
     	return block;
     }
 
@@ -708,10 +804,21 @@ var app = (function () {
     function instance$1($$self, $$props, $$invalidate) {
     	// Props in modal component
       let { selected = Object, show = Boolean, closeModal = Function } = $$props;
+      let openOrClosed = "fa-eye-slash";
+      let showPass = "password";
+      const showPassword = () => {
+        openOrClosed === "fa-eye-slash"
+          ? ($$invalidate('openOrClosed', openOrClosed = "fa-eye"))
+          : ($$invalidate('openOrClosed', openOrClosed = "fa-eye-slash"));
+        showPass === "password" ? ($$invalidate('showPass', showPass = "text")) : ($$invalidate('showPass', showPass = "password"));
+      };
+      const connectToNetwork = () => {
+        console.log('Attempting to connect');
+      };
 
     	const writable_props = ['selected', 'show', 'closeModal'];
     	Object_1.keys($$props).forEach(key => {
-    		if (!writable_props.includes(key) && !key.startsWith('$$')) console.warn(`<Modal> was created with unknown prop '${key}'`);
+    		if (!writable_props.includes(key) && !key.startsWith('$$')) console_1.warn(`<Modal> was created with unknown prop '${key}'`);
     	});
 
     	$$self.$set = $$props => {
@@ -721,16 +828,26 @@ var app = (function () {
     	};
 
     	$$self.$capture_state = () => {
-    		return { selected, show, closeModal };
+    		return { selected, show, closeModal, openOrClosed, showPass };
     	};
 
     	$$self.$inject_state = $$props => {
     		if ('selected' in $$props) $$invalidate('selected', selected = $$props.selected);
     		if ('show' in $$props) $$invalidate('show', show = $$props.show);
     		if ('closeModal' in $$props) $$invalidate('closeModal', closeModal = $$props.closeModal);
+    		if ('openOrClosed' in $$props) $$invalidate('openOrClosed', openOrClosed = $$props.openOrClosed);
+    		if ('showPass' in $$props) $$invalidate('showPass', showPass = $$props.showPass);
     	};
 
-    	return { selected, show, closeModal };
+    	return {
+    		selected,
+    		show,
+    		closeModal,
+    		openOrClosed,
+    		showPass,
+    		showPassword,
+    		connectToNetwork
+    	};
     }
 
     class Modal extends SvelteComponentDev {
@@ -775,7 +892,7 @@ var app = (function () {
     	return child_ctx;
     }
 
-    // (51:0) {#if loading}
+    // (59:0) {#if loading}
     function create_if_block_1(ctx) {
     	var current;
 
@@ -807,11 +924,11 @@ var app = (function () {
     			destroy_component(loader, detaching);
     		}
     	};
-    	dispatch_dev("SvelteRegisterBlock", { block, id: create_if_block_1.name, type: "if", source: "(51:0) {#if loading}", ctx });
+    	dispatch_dev("SvelteRegisterBlock", { block, id: create_if_block_1.name, type: "if", source: "(59:0) {#if loading}", ctx });
     	return block;
     }
 
-    // (55:0) {#if !loading}
+    // (63:0) {#if !loading}
     function create_if_block$1(ctx) {
     	var table, thead, tr, th0, t1, th1, t3, th2, t5, th3, t7, tbody;
 
@@ -845,20 +962,19 @@ var app = (function () {
     			for (let i = 0; i < each_blocks.length; i += 1) {
     				each_blocks[i].c();
     			}
-    			attr_dev(th0, "class", "svelte-1q0bb8m");
-    			add_location(th0, file$3, 58, 8, 1043);
-    			attr_dev(th1, "class", "svelte-1q0bb8m");
-    			add_location(th1, file$3, 59, 8, 1065);
-    			attr_dev(th2, "class", "svelte-1q0bb8m");
-    			add_location(th2, file$3, 60, 8, 1088);
-    			attr_dev(th3, "class", "svelte-1q0bb8m");
-    			add_location(th3, file$3, 61, 8, 1113);
-    			attr_dev(tr, "class", "svelte-1q0bb8m");
-    			add_location(tr, file$3, 57, 6, 1030);
-    			add_location(thead, file$3, 56, 4, 1016);
-    			add_location(tbody, file$3, 65, 4, 1161);
-    			attr_dev(table, "class", "svelte-1q0bb8m");
-    			add_location(table, file$3, 55, 2, 1004);
+    			attr_dev(th0, "class", "svelte-1vs0xnw");
+    			add_location(th0, file$3, 66, 8, 1276);
+    			attr_dev(th1, "class", "svelte-1vs0xnw");
+    			add_location(th1, file$3, 67, 8, 1298);
+    			attr_dev(th2, "class", "svelte-1vs0xnw");
+    			add_location(th2, file$3, 68, 8, 1321);
+    			attr_dev(th3, "class", "svelte-1vs0xnw");
+    			add_location(th3, file$3, 69, 8, 1346);
+    			add_location(tr, file$3, 65, 6, 1263);
+    			add_location(thead, file$3, 64, 4, 1249);
+    			add_location(tbody, file$3, 73, 4, 1394);
+    			attr_dev(table, "class", "svelte-1vs0xnw");
+    			add_location(table, file$3, 63, 2, 1237);
     		},
 
     		m: function mount(target, anchor) {
@@ -912,11 +1028,11 @@ var app = (function () {
     			destroy_each(each_blocks, detaching);
     		}
     	};
-    	dispatch_dev("SvelteRegisterBlock", { block, id: create_if_block$1.name, type: "if", source: "(55:0) {#if !loading}", ctx });
+    	dispatch_dev("SvelteRegisterBlock", { block, id: create_if_block$1.name, type: "if", source: "(63:0) {#if !loading}", ctx });
     	return block;
     }
 
-    // (67:6) {#each networks as network}
+    // (75:6) {#each networks as network}
     function create_each_block$1(ctx) {
     	var tr, td0, t0_value = ctx.network.ssid + "", t0, t1, td1, t2_value = ctx.network.bssid + "", t2, t3, td2, t4_value = ctx.network.channel + "", t4, t5, td3, t6_value = ctx.network.security + "", t6, t7, dispose;
 
@@ -939,16 +1055,16 @@ var app = (function () {
     			td3 = element("td");
     			t6 = text(t6_value);
     			t7 = space();
-    			attr_dev(td0, "class", "svelte-1q0bb8m");
-    			add_location(td0, file$3, 68, 10, 1277);
-    			attr_dev(td1, "class", "svelte-1q0bb8m");
-    			add_location(td1, file$3, 69, 10, 1311);
-    			attr_dev(td2, "class", "svelte-1q0bb8m");
-    			add_location(td2, file$3, 70, 10, 1346);
-    			attr_dev(td3, "class", "svelte-1q0bb8m");
-    			add_location(td3, file$3, 71, 10, 1383);
-    			attr_dev(tr, "class", "table-row svelte-1q0bb8m");
-    			add_location(tr, file$3, 67, 8, 1211);
+    			attr_dev(td0, "class", "svelte-1vs0xnw");
+    			add_location(td0, file$3, 76, 10, 1510);
+    			attr_dev(td1, "class", "svelte-1vs0xnw");
+    			add_location(td1, file$3, 77, 10, 1544);
+    			attr_dev(td2, "class", "svelte-1vs0xnw");
+    			add_location(td2, file$3, 78, 10, 1579);
+    			attr_dev(td3, "class", "svelte-1vs0xnw");
+    			add_location(td3, file$3, 79, 10, 1616);
+    			attr_dev(tr, "class", "table-row svelte-1vs0xnw");
+    			add_location(tr, file$3, 75, 8, 1444);
     			dispose = listen_dev(tr, "click", click_handler);
     		},
 
@@ -995,7 +1111,7 @@ var app = (function () {
     			dispose();
     		}
     	};
-    	dispatch_dev("SvelteRegisterBlock", { block, id: create_each_block$1.name, type: "each", source: "(67:6) {#each networks as network}", ctx });
+    	dispatch_dev("SvelteRegisterBlock", { block, id: create_each_block$1.name, type: "each", source: "(75:6) {#each networks as network}", ctx });
     	return block;
     }
 
@@ -1006,7 +1122,7 @@ var app = (function () {
     		props: {
     		selected: ctx.selected,
     		show: ctx.showModal,
-    		closeModal: ctx.getInfo
+    		closeModal: ctx.closeModal
     	},
     		$$inline: true
     	});
@@ -1132,6 +1248,9 @@ var app = (function () {
         showModal === false ? ($$invalidate('showModal', showModal = true)) : ($$invalidate('showModal', showModal = false));
       };
 
+      const closeModal = () =>
+        showModal === false ? ($$invalidate('showModal', showModal = true)) : ($$invalidate('showModal', showModal = false));
+
     	const click_handler = ({ network }, e) => getInfo(network);
 
     	$$self.$capture_state = () => {
@@ -1151,6 +1270,7 @@ var app = (function () {
     		selected,
     		showModal,
     		getInfo,
+    		closeModal,
     		click_handler
     	};
     }
@@ -1168,7 +1288,10 @@ var app = (function () {
     function create_fragment$4(ctx) {
     	var t, current;
 
-    	var headerbar = new HeaderBar({ $$inline: true });
+    	var headerbar = new HeaderBar({
+    		props: { headerMessage: "Wi-Finder" },
+    		$$inline: true
+    	});
 
     	var networkstable = new NetworksTable({ $$inline: true });
 

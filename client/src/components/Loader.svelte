@@ -23,8 +23,4 @@
 }
 </style>
 
-<script>
-//   export let text = String
-</script>
-
 <div class="loader"></div>
