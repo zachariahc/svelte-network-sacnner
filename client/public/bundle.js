@@ -324,6 +324,10 @@ var app = (function () {
         else
             dispatch_dev("SvelteDOMSetAttribute", { node, attribute, value });
     }
+    function prop_dev(node, property, value) {
+        node[property] = value;
+        dispatch_dev("SvelteDOMSetProperty", { node, property, value });
+    }
     function set_data_dev(text, data) {
         data = '' + data;
         if (text.data === data)
@@ -688,7 +692,7 @@ var app = (function () {
 
     const file$3 = "src/components/Modal.svelte";
 
-    // (120:0) {#if show}
+    // (123:0) {#if show}
     function create_if_block(ctx) {
     	var div3, div2, span, t1, div1, h3, t3, h4, t4_value = ctx.selected.ssid + "", t4, t5, p, t7, div0, i, i_class_value, t8, input, t9, button, current_block_type_index, if_block, button_class_value, current, dispose;
 
@@ -731,30 +735,31 @@ var app = (function () {
     			t9 = space();
     			button = element("button");
     			if_block.c();
-    			attr_dev(span, "class", "close svelte-ucoama");
-    			add_location(span, file$3, 122, 6, 2557);
-    			add_location(h3, file$3, 124, 8, 2658);
-    			add_location(h4, file$3, 125, 8, 2709);
-    			add_location(p, file$3, 126, 8, 2742);
-    			attr_dev(i, "class", i_class_value = "" + null_to_empty((`fas ${ctx.openOrClosed} icon`)) + " svelte-ucoama");
-    			add_location(i, file$3, 128, 10, 2839);
-    			attr_dev(input, "class", "input-field svelte-ucoama");
+    			attr_dev(span, "class", "close svelte-yp4uyl");
+    			add_location(span, file$3, 125, 6, 2791);
+    			add_location(h3, file$3, 127, 8, 2892);
+    			add_location(h4, file$3, 128, 8, 2943);
+    			add_location(p, file$3, 129, 8, 2976);
+    			attr_dev(i, "class", i_class_value = "" + null_to_empty((`fas ${ctx.openOrClosed} icon`)) + " svelte-yp4uyl");
+    			add_location(i, file$3, 131, 10, 3073);
+    			attr_dev(input, "class", "input-field svelte-yp4uyl");
     			attr_dev(input, "type", ctx.showPass);
     			attr_dev(input, "placeholder", "password");
     			attr_dev(input, "name", "usrname");
-    			add_location(input, file$3, 129, 10, 2914);
-    			attr_dev(div0, "class", "input-container svelte-ucoama");
-    			add_location(div0, file$3, 127, 8, 2799);
+    			add_location(input, file$3, 132, 10, 3148);
+    			attr_dev(div0, "class", "input-container svelte-yp4uyl");
+    			add_location(div0, file$3, 130, 8, 3033);
     			attr_dev(button, "type", "submit");
-    			attr_dev(button, "class", button_class_value = "" + null_to_empty(ctx.active) + " svelte-ucoama");
-    			add_location(button, file$3, 136, 8, 3104);
-    			attr_dev(div1, "class", "connect-content svelte-ucoama");
-    			add_location(div1, file$3, 123, 6, 2620);
-    			attr_dev(div2, "class", "modal-content svelte-ucoama");
-    			add_location(div2, file$3, 121, 4, 2523);
+    			attr_dev(button, "class", button_class_value = "" + null_to_empty(ctx.active) + " svelte-yp4uyl");
+    			button.disabled = ctx.disabled;
+    			add_location(button, file$3, 139, 8, 3338);
+    			attr_dev(div1, "class", "connect-content svelte-yp4uyl");
+    			add_location(div1, file$3, 126, 6, 2854);
+    			attr_dev(div2, "class", "modal-content svelte-yp4uyl");
+    			add_location(div2, file$3, 124, 4, 2757);
     			attr_dev(div3, "id", "myModal");
-    			attr_dev(div3, "class", "modal svelte-ucoama");
-    			add_location(div3, file$3, 120, 2, 2486);
+    			attr_dev(div3, "class", "modal svelte-yp4uyl");
+    			add_location(div3, file$3, 123, 2, 2720);
 
     			dispose = [
     				listen_dev(span, "click", ctx.closeModal),
@@ -792,7 +797,7 @@ var app = (function () {
     				set_data_dev(t4, t4_value);
     			}
 
-    			if ((!current || changed.openOrClosed) && i_class_value !== (i_class_value = "" + null_to_empty((`fas ${ctx.openOrClosed} icon`)) + " svelte-ucoama")) {
+    			if ((!current || changed.openOrClosed) && i_class_value !== (i_class_value = "" + null_to_empty((`fas ${ctx.openOrClosed} icon`)) + " svelte-yp4uyl")) {
     				attr_dev(i, "class", i_class_value);
     			}
 
@@ -818,8 +823,12 @@ var app = (function () {
     				if_block.m(button, null);
     			}
 
-    			if ((!current || changed.active) && button_class_value !== (button_class_value = "" + null_to_empty(ctx.active) + " svelte-ucoama")) {
+    			if ((!current || changed.active) && button_class_value !== (button_class_value = "" + null_to_empty(ctx.active) + " svelte-yp4uyl")) {
     				attr_dev(button, "class", button_class_value);
+    			}
+
+    			if (!current || changed.disabled) {
+    				prop_dev(button, "disabled", ctx.disabled);
     			}
     		},
 
@@ -843,11 +852,11 @@ var app = (function () {
     			run_all(dispose);
     		}
     	};
-    	dispatch_dev("SvelteRegisterBlock", { block, id: create_if_block.name, type: "if", source: "(120:0) {#if show}", ctx });
+    	dispatch_dev("SvelteRegisterBlock", { block, id: create_if_block.name, type: "if", source: "(123:0) {#if show}", ctx });
     	return block;
     }
 
-    // (140:10) {:else}
+    // (147:10) {:else}
     function create_else_block(ctx) {
     	var current;
 
@@ -879,11 +888,11 @@ var app = (function () {
     			destroy_component(miniloader, detaching);
     		}
     	};
-    	dispatch_dev("SvelteRegisterBlock", { block, id: create_else_block.name, type: "else", source: "(140:10) {:else}", ctx });
+    	dispatch_dev("SvelteRegisterBlock", { block, id: create_else_block.name, type: "else", source: "(147:10) {:else}", ctx });
     	return block;
     }
 
-    // (138:10) {#if !connecting}
+    // (145:10) {#if !connecting}
     function create_if_block_1(ctx) {
     	var t;
 
@@ -905,7 +914,7 @@ var app = (function () {
     			}
     		}
     	};
-    	dispatch_dev("SvelteRegisterBlock", { block, id: create_if_block_1.name, type: "if", source: "(138:10) {#if !connecting}", ctx });
+    	dispatch_dev("SvelteRegisterBlock", { block, id: create_if_block_1.name, type: "if", source: "(145:10) {#if !connecting}", ctx });
     	return block;
     }
 
@@ -977,12 +986,14 @@ var app = (function () {
     	
       // Props in modal component
       let { selected = Object, show = Boolean, closeModal = Function } = $$props;
-
+      // Variables used to change classes and trigger actions
       let connecting = false;
       let openOrClosed = "fa-eye-slash";
       let showPass = "password";
       let active = "btn-deactive";
+      let disabled = true;
       let passwordValue = "";
+      // Methods used to toggle classes and perform requests
       const showPassword = () => {
         openOrClosed === "fa-eye-slash"
           ? ($$invalidate('openOrClosed', openOrClosed = "fa-eye"))
@@ -991,10 +1002,12 @@ var app = (function () {
       };
       const getPassword = e => {
         passwordValue = e.target.value;
+        passwordValue.length > 0 ? ($$invalidate('disabled', disabled = false)) : ($$invalidate('disabled', disabled = true));
         passwordValue.length > 0 ? ($$invalidate('active', active = "btn")) : ($$invalidate('active', active = "btn-deactive"));
       };
       const connectToNetwork = () => {
         $$invalidate('connecting', connecting = true);
+        // Timeout used to test functionality and styles
         setTimeout(() => {
           $$invalidate('connecting', connecting = false);
           closeModal();
@@ -1014,7 +1027,7 @@ var app = (function () {
     	};
 
     	$$self.$capture_state = () => {
-    		return { selected, show, closeModal, connecting, openOrClosed, showPass, active, passwordValue };
+    		return { selected, show, closeModal, connecting, openOrClosed, showPass, active, disabled, passwordValue };
     	};
 
     	$$self.$inject_state = $$props => {
@@ -1025,6 +1038,7 @@ var app = (function () {
     		if ('openOrClosed' in $$props) $$invalidate('openOrClosed', openOrClosed = $$props.openOrClosed);
     		if ('showPass' in $$props) $$invalidate('showPass', showPass = $$props.showPass);
     		if ('active' in $$props) $$invalidate('active', active = $$props.active);
+    		if ('disabled' in $$props) $$invalidate('disabled', disabled = $$props.disabled);
     		if ('passwordValue' in $$props) passwordValue = $$props.passwordValue;
     	};
 
@@ -1036,6 +1050,7 @@ var app = (function () {
     		openOrClosed,
     		showPass,
     		active,
+    		disabled,
     		showPassword,
     		getPassword,
     		connectToNetwork

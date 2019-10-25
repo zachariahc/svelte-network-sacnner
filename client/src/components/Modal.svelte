@@ -5,12 +5,14 @@
   export let selected = Object;
   export let show = Boolean;
   export let closeModal = Function;
-
+  // Variables used to change classes and trigger actions
   let connecting = false;
   let openOrClosed = "fa-eye-slash";
   let showPass = "password";
   let active = "btn-deactive";
+  let disabled = true;
   let passwordValue = "";
+  // Methods used to toggle classes and perform requests
   const showPassword = () => {
     openOrClosed === "fa-eye-slash"
       ? (openOrClosed = "fa-eye")
@@ -19,20 +21,21 @@
   };
   const getPassword = e => {
     passwordValue = e.target.value;
+    passwordValue.length > 0 ? (disabled = false) : (disabled = true);
     passwordValue.length > 0 ? (active = "btn") : (active = "btn-deactive");
   };
   const connectToNetwork = () => {
     connecting = true;
+    // Timeout used to test functionality and styles
     setTimeout(() => {
-      connecting = false
-      closeModal()
-      active = "btn-deactive"
-    }, 3000)
+      connecting = false;
+      closeModal();
+      active = "btn-deactive";
+    }, 3000);
   };
 </script>
 
 <style>
-  /* The Modal (background) */
   .modal {
     position: fixed;
     z-index: 1;
@@ -134,7 +137,11 @@
             placeholder="password"
             name="usrname" />
         </div>
-        <button type="submit" class={active} on:click={connectToNetwork}>
+        <button
+          type="submit"
+          class={active}
+          on:click={connectToNetwork}
+          {disabled}>
           {#if !connecting}
             Connect
           {:else}
