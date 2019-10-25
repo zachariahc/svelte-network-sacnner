@@ -2,16 +2,16 @@
   import Loader from "./Loader.svelte";
   import Modal from "./Modal.svelte";
   import { onMount } from "svelte";
+  import { closestNetworks } from "../api/requests.js"
 
   let networks = [];
   let loading = true;
   let selected = {};
   let showModal = false;
 
-  onMount(async function() {
-    const response = await fetch("http://localhost:3000/networkscanone");
-    const json = await response.json();
-    networks = json;
+  onMount(async () => {
+    const fetchedNetworks = await closestNetworks()
+    networks = fetchedNetworks;
     loading = false;
   });
 
@@ -27,6 +27,7 @@
 <style>
   table {
     font-family: arial, sans-serif;
+    /* Keeping this for later if border is needed */
     /* border-collapse: collapse; */
     background-color: rgb(53, 53, 53);
     width: 100%;
@@ -40,7 +41,6 @@
     padding: 8px;
     width: 25%;
   }
-
   td {
     padding: 10px;
   }

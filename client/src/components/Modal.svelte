@@ -1,6 +1,7 @@
 <script>
   import { onMount } from "svelte";
   import MiniLoader from "./MiniLoader.svelte";
+  import { netConnect } from "../api/requests.js" 
   // Props in modal component
   export let selected = Object;
   export let show = Boolean;
@@ -12,6 +13,7 @@
   let active = "btn-deactive";
   let disabled = true;
   let passwordValue = "";
+  let connMessage = ""
   // Methods used to toggle classes and perform requests
   const showPassword = () => {
     openOrClosed === "fa-eye-slash"
@@ -24,14 +26,24 @@
     passwordValue.length > 0 ? (disabled = false) : (disabled = true);
     passwordValue.length > 0 ? (active = "btn") : (active = "btn-deactive");
   };
-  const connectToNetwork = () => {
-    connecting = true;
-    // Timeout used to test functionality and styles
-    setTimeout(() => {
-      connecting = false;
-      closeModal();
-      active = "btn-deactive";
-    }, 3000);
+  const connectToNetwork = async () => {
+    if(passwordValue.length > 0){
+       connecting = true;
+       const getMessage = netConnect(passwordValue, selected.ssid)
+       const messageBack = await getMessage
+       console.log(messageBack)
+       if(messageBack.message === "Connection successful"){
+         connMessage = messageBack.message
+         connecting = false
+         setTimeout(() => {
+           closeModal()
+           connMessage = ""
+         }, 1000)
+       } else if(messageBack.message === "Sorry there was a problem connecting") {
+         connMessage = messageBack.message
+         connecting = false
+       }
+    }
   };
 </script>
 
@@ -137,6 +149,7 @@
             placeholder="password"
             name="usrname" />
         </div>
+        <p>{ connMessage }</p>
         <button
           type="submit"
           class={active}
