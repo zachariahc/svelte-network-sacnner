@@ -31,8 +31,7 @@
        connecting = true;
        const getMessage = netConnect(passwordValue, selected.ssid)
        const messageBack = await getMessage
-       console.log(messageBack)
-       if(messageBack.message === "Connection successful"){
+       if(messageBack.message === "Connection successful!"){
          connMessage = messageBack.message
          connecting = false
          setTimeout(() => {
