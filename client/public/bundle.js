@@ -609,8 +609,8 @@ var app = (function () {
     	const block = {
     		c: function create() {
     			div = element("div");
-    			attr_dev(div, "class", "loader svelte-l9pk5a");
-    			add_location(div, file$1, 25, 0, 490);
+    			attr_dev(div, "class", "loader svelte-10kxyzk");
+    			add_location(div, file$1, 24, 0, 487);
     		},
 
     		l: function claim(nodes) {
@@ -1099,19 +1099,23 @@ var app = (function () {
     	return child_ctx;
     }
 
-    // (58:0) {#if loading}
+    // (61:0) {#if loading}
     function create_if_block_1$1(ctx) {
-    	var current;
+    	var div, current;
 
     	var loader = new Loader({ $$inline: true });
 
     	const block = {
     		c: function create() {
+    			div = element("div");
     			loader.$$.fragment.c();
+    			attr_dev(div, "class", "landing-loader svelte-1lbnuai");
+    			add_location(div, file$4, 61, 2, 1229);
     		},
 
     		m: function mount(target, anchor) {
-    			mount_component(loader, target, anchor);
+    			insert_dev(target, div, anchor);
+    			mount_component(loader, div, null);
     			current = true;
     		},
 
@@ -1128,14 +1132,18 @@ var app = (function () {
     		},
 
     		d: function destroy(detaching) {
-    			destroy_component(loader, detaching);
+    			if (detaching) {
+    				detach_dev(div);
+    			}
+
+    			destroy_component(loader);
     		}
     	};
-    	dispatch_dev("SvelteRegisterBlock", { block, id: create_if_block_1$1.name, type: "if", source: "(58:0) {#if loading}", ctx });
+    	dispatch_dev("SvelteRegisterBlock", { block, id: create_if_block_1$1.name, type: "if", source: "(61:0) {#if loading}", ctx });
     	return block;
     }
 
-    // (62:0) {#if !loading}
+    // (67:0) {#if !loading}
     function create_if_block$1(ctx) {
     	var table, thead, tr, th0, t1, th1, t3, th2, t5, th3, t7, tbody;
 
@@ -1169,19 +1177,19 @@ var app = (function () {
     			for (let i = 0; i < each_blocks.length; i += 1) {
     				each_blocks[i].c();
     			}
-    			attr_dev(th0, "class", "svelte-gzlbw8");
-    			add_location(th0, file$4, 65, 8, 1257);
-    			attr_dev(th1, "class", "svelte-gzlbw8");
-    			add_location(th1, file$4, 66, 8, 1279);
-    			attr_dev(th2, "class", "svelte-gzlbw8");
-    			add_location(th2, file$4, 67, 8, 1302);
-    			attr_dev(th3, "class", "svelte-gzlbw8");
-    			add_location(th3, file$4, 68, 8, 1327);
-    			add_location(tr, file$4, 64, 6, 1244);
-    			add_location(thead, file$4, 63, 4, 1230);
-    			add_location(tbody, file$4, 72, 4, 1375);
-    			attr_dev(table, "class", "svelte-gzlbw8");
-    			add_location(table, file$4, 62, 2, 1218);
+    			attr_dev(th0, "class", "svelte-1lbnuai");
+    			add_location(th0, file$4, 70, 8, 1345);
+    			attr_dev(th1, "class", "svelte-1lbnuai");
+    			add_location(th1, file$4, 71, 8, 1367);
+    			attr_dev(th2, "class", "svelte-1lbnuai");
+    			add_location(th2, file$4, 72, 8, 1390);
+    			attr_dev(th3, "class", "svelte-1lbnuai");
+    			add_location(th3, file$4, 73, 8, 1415);
+    			add_location(tr, file$4, 69, 6, 1332);
+    			add_location(thead, file$4, 68, 4, 1318);
+    			add_location(tbody, file$4, 77, 4, 1463);
+    			attr_dev(table, "class", "svelte-1lbnuai");
+    			add_location(table, file$4, 67, 2, 1306);
     		},
 
     		m: function mount(target, anchor) {
@@ -1235,11 +1243,11 @@ var app = (function () {
     			destroy_each(each_blocks, detaching);
     		}
     	};
-    	dispatch_dev("SvelteRegisterBlock", { block, id: create_if_block$1.name, type: "if", source: "(62:0) {#if !loading}", ctx });
+    	dispatch_dev("SvelteRegisterBlock", { block, id: create_if_block$1.name, type: "if", source: "(67:0) {#if !loading}", ctx });
     	return block;
     }
 
-    // (74:6) {#each networks as network}
+    // (79:6) {#each networks as network}
     function create_each_block$1(ctx) {
     	var tr, td0, t0_value = ctx.network.ssid + "", t0, t1, td1, t2_value = ctx.network.bssid + "", t2, t3, td2, t4_value = ctx.network.channel + "", t4, t5, td3, t6_value = ctx.network.security + "", t6, t7, dispose;
 
@@ -1262,16 +1270,16 @@ var app = (function () {
     			td3 = element("td");
     			t6 = text(t6_value);
     			t7 = space();
-    			attr_dev(td0, "class", "svelte-gzlbw8");
-    			add_location(td0, file$4, 75, 10, 1491);
-    			attr_dev(td1, "class", "svelte-gzlbw8");
-    			add_location(td1, file$4, 76, 10, 1525);
-    			attr_dev(td2, "class", "svelte-gzlbw8");
-    			add_location(td2, file$4, 77, 10, 1560);
-    			attr_dev(td3, "class", "svelte-gzlbw8");
-    			add_location(td3, file$4, 78, 10, 1597);
-    			attr_dev(tr, "class", "table-row svelte-gzlbw8");
-    			add_location(tr, file$4, 74, 8, 1425);
+    			attr_dev(td0, "class", "svelte-1lbnuai");
+    			add_location(td0, file$4, 80, 10, 1579);
+    			attr_dev(td1, "class", "svelte-1lbnuai");
+    			add_location(td1, file$4, 81, 10, 1613);
+    			attr_dev(td2, "class", "svelte-1lbnuai");
+    			add_location(td2, file$4, 82, 10, 1648);
+    			attr_dev(td3, "class", "svelte-1lbnuai");
+    			add_location(td3, file$4, 83, 10, 1685);
+    			attr_dev(tr, "class", "table-row svelte-1lbnuai");
+    			add_location(tr, file$4, 79, 8, 1513);
     			dispose = listen_dev(tr, "click", click_handler);
     		},
 
@@ -1318,7 +1326,7 @@ var app = (function () {
     			dispose();
     		}
     	};
-    	dispatch_dev("SvelteRegisterBlock", { block, id: create_each_block$1.name, type: "each", source: "(74:6) {#each networks as network}", ctx });
+    	dispatch_dev("SvelteRegisterBlock", { block, id: create_each_block$1.name, type: "each", source: "(79:6) {#each networks as network}", ctx });
     	return block;
     }
 
@@ -1551,49 +1559,11 @@ var app = (function () {
     	return block;
     }
 
-    function instance$3($$self, $$props, $$invalidate) {
-    	
-    	let { name } = $$props;
-
-    	const writable_props = ['name'];
-    	Object.keys($$props).forEach(key => {
-    		if (!writable_props.includes(key) && !key.startsWith('$$')) console.warn(`<App> was created with unknown prop '${key}'`);
-    	});
-
-    	$$self.$set = $$props => {
-    		if ('name' in $$props) $$invalidate('name', name = $$props.name);
-    	};
-
-    	$$self.$capture_state = () => {
-    		return { name };
-    	};
-
-    	$$self.$inject_state = $$props => {
-    		if ('name' in $$props) $$invalidate('name', name = $$props.name);
-    	};
-
-    	return { name };
-    }
-
     class App extends SvelteComponentDev {
     	constructor(options) {
     		super(options);
-    		init(this, options, instance$3, create_fragment$5, safe_not_equal, ["name"]);
+    		init(this, options, null, create_fragment$5, safe_not_equal, []);
     		dispatch_dev("SvelteRegisterComponent", { component: this, tagName: "App", options, id: create_fragment$5.name });
-
-    		const { ctx } = this.$$;
-    		const props = options.props || {};
-    		if (ctx.name === undefined && !('name' in props)) {
-    			console.warn("<App> was created without expected prop 'name'");
-    		}
-    	}
-
-    	get name() {
-    		throw new Error("<App>: Props cannot be read directly from the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
-    	}
-
-    	set name(value) {
-    		throw new Error("<App>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
     	}
     }
 

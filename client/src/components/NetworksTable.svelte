@@ -51,12 +51,17 @@
     color: white;
     background-color: rgb(63, 63, 63);
   }
+  .landing-loader {
+    margin: 15% auto;
+  }
 </style>
 
 <Modal {selected} show={showModal} {closeModal} />
 
 {#if loading}
-  <Loader />
+  <div class="landing-loader">
+    <Loader />
+  </div>
 {/if}
 
 {#if !loading}

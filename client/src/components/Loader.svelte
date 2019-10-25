@@ -1,7 +1,6 @@
 <style>
 .loader {
-
-  margin: 25% auto;
+  margin: 0 auto;
   border: 16px solid #f3f3f3;
   border-radius: 50%;
   border-top: 16px solid #3498db;
