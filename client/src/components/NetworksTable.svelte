@@ -49,7 +49,6 @@
   }
   .table-row:hover {
     color: white;
-    opacity: 0.75;
     background-color: rgb(63, 63, 63);
   }
 </style>

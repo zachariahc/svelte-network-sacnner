@@ -1,20 +1,34 @@
 <script>
   import { onMount } from "svelte";
+  import MiniLoader from "./MiniLoader.svelte";
   // Props in modal component
   export let selected = Object;
   export let show = Boolean;
   export let closeModal = Function;
+
+  let connecting = false;
   let openOrClosed = "fa-eye-slash";
   let showPass = "password";
+  let active = "btn-deactive";
+  let passwordValue = "";
   const showPassword = () => {
     openOrClosed === "fa-eye-slash"
       ? (openOrClosed = "fa-eye")
       : (openOrClosed = "fa-eye-slash");
     showPass === "password" ? (showPass = "text") : (showPass = "password");
   };
+  const getPassword = e => {
+    passwordValue = e.target.value;
+    passwordValue.length > 0 ? (active = "btn") : (active = "btn-deactive");
+  };
   const connectToNetwork = () => {
-    console.log('Attempting to connect')
-  }
+    connecting = true;
+    setTimeout(() => {
+      connecting = false
+      closeModal()
+      active = "btn-deactive"
+    }, 3000)
+  };
 </script>
 
 <style>
@@ -76,9 +90,9 @@
     padding: 10px;
     outline: none;
   }
-  .input-field:focus {
-    border: 2px solid dodgerblue;
-  }
+  /* .input-field:focus {
+    border: 1px solid dodgerblue;
+  } */
   .btn {
     background-color: dodgerblue;
     color: white;
@@ -87,9 +101,19 @@
     cursor: pointer;
     width: 100%;
     opacity: 0.9;
+    height: 50px;
   }
   .btn:hover {
     opacity: 1;
+  }
+  .btn-deactive {
+    background-color: rgb(206, 206, 206);
+    color: white;
+    padding: 15px 20px;
+    border: none;
+    width: 100%;
+    opacity: 0.9;
+    height: 50px;
   }
 </style>
 
@@ -100,16 +124,23 @@
       <div class="connect-content">
         <h3>You are attempting to connect to:</h3>
         <h4>{selected.ssid}</h4>
-        <p>Please enter a password and clck</p>
+        <p>Please enter a password and click connect</p>
         <div class="input-container">
           <i class={`fas ${openOrClosed} icon`} on:click={showPassword} />
           <input
+            on:keyup={getPassword}
             class="input-field"
             type={showPass}
             placeholder="password"
             name="usrname" />
         </div>
-        <button type="submit" class="btn" on:click={connectToNetwork}>Connect</button>
+        <button type="submit" class={active} on:click={connectToNetwork}>
+          {#if !connecting}
+            Connect
+          {:else}
+            <MiniLoader />
+          {/if}
+        </button>
       </div>
     </div>
   </div>
