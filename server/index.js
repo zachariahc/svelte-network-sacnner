@@ -80,7 +80,7 @@ app.post("/connect", async (req, res) => {
   const connection = wifi
     .connect({ ssid: req.body.ssid, password: req.body.password })
     .then(data => {
-      return { message: "Connection successful", data };
+      return { message: "Connection successful!", data };
     })
     .catch(err => {
       return { message: "Sorry there was a problem connecting", err };

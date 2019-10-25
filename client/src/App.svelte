@@ -6,5 +6,3 @@ import NetworksTable from './components/NetworksTable.svelte'
 
 <HeaderBar headerMessage="Wi-Finder"/>
 <NetworksTable />
-
-

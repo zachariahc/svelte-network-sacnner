@@ -1,13 +1,12 @@
 <script>
   import { onMount } from "svelte";
+  import { currentConnection } from "../api/requests.js"
   export let headerMessage = String
-  let data = [];
+  let current = [];
 
   onMount(async function() {
-    const response = await fetch("http://localhost:3000/currentconnection");
-    const json = await response.json();
-    data = json;
-    // console.log(data)
+    const connection = await currentConnection()
+    current = connection;
   });
 </script>
 
@@ -30,12 +29,12 @@
 </style>
 
 <div class="header-container">
-  {#each data as item}
-    <p class="current-data">Current SSID: {item.ssid}</p>
-    <p class="current-data">Current BSSID: {item.bssid}</p>
-    <p class="current-data">Current Channel: {item.channel}</p>
-    <p class="current-data">Signal Level: {item.signal_level}</p>
-    <p class="current-data">Security: {item.security}</p>
+  {#each current as connection}
+    <p class="current-data">Current SSID: {connection.ssid}</p>
+    <p class="current-data">Current BSSID: {connection.bssid}</p>
+    <p class="current-data">Current Channel: {connection.channel}</p>
+    <p class="current-data">Signal Level: {connection.signal_level}</p>
+    <p class="current-data">Security: {connection.security}</p>
   {/each}
 </div>
 
