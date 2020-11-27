@@ -27,7 +27,7 @@
     "network-scanner": "0.0.2",
     "node-wifi": "^2.0.12",
     "nodemon": "^1.19.4",
-    "systeminformation": "^4.14.17",
+    "systeminformation": "^4.30.5",
     "wifi-name": "^3.1.1"
   },
   "devDependencies": {
